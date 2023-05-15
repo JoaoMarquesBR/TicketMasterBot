@@ -43,12 +43,14 @@ class Repo:
 
 
 class Payload:
-    def __init__(self, repository_id, push_id, size, distinct_size, ref, head, before, commits):
-        self.repository_id = repository_id
-        self.push_id = push_id
-        self.size = size
-        self.distinct_size = distinct_size
-        self.ref = ref
-        self.head = head
-        self.before = before
-        self.commits = commits
+    def __init__(self, **kwargs):
+        self.repository_id = kwargs.get('repository_id')
+        self.push_id = kwargs.get('push_id')
+        self.size = kwargs.get('size')
+        self.distinct_size = kwargs.get('distinct_size')
+        self.ref = kwargs.get('ref')
+        self.head = kwargs.get('head')
+        self.before = kwargs.get('before')
+        self.commits = kwargs.get('commits')
+        self.branch = self.ref.replace('refs/heads/', '')
+        self.branch = self.ref.lower()
