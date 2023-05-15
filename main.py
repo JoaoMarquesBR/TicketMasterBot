@@ -3,6 +3,7 @@ import requests
 import interactions
 import os
 from dotenv import load_dotenv
+from gitResponse import gitResponse
 
 load_dotenv()
 bot_Token = os.getenv("BOT_TOKEN")
@@ -41,6 +42,10 @@ async def onready():
             if value.get('type') == 'PushEvent':
                 if value.get('id') == ultimo_id:
                     break
+                gitResponseJSON = gitResponse(**value)
+                print(gitResponseJSON.id)
+                print(gitResponseJSON.actor)
+                print("=====================================")
                 ultimo_id = value.get('id')
                 branch_name = value.get('payload').get('ref').replace('refs/heads/', '')
                 branch_name = branch_name.lower()
