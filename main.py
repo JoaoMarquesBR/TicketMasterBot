@@ -123,8 +123,13 @@ class NewBranch(interactions.Extension):
         }
 
         # Busca o último commit na branch main
-        response = requests.get(main_branch_url, headers=headers)
-        commit_sha = response.json()['object']['sha']
+        try:
+            response = requests.get(main_branch_url, headers=headers)
+            commit_sha = response.json()['object']['sha']
+        except:
+            main_branch_url = f'{base_url}/git/refs/heads/master'
+            response = requests.get(main_branch_url, headers=headers)
+            commit_sha = response.json()['object']['sha']
 
         # Cria a nova branch
         data = {
