@@ -80,11 +80,19 @@ class NewBranch(interactions.Extension):
                 name="branch_name",
                 description="o nome do branch",
                 required=True,
-            )
+            ),
+            interactions.Option(
+                type=interactions.OptionType.CHANNEL,
+                channel_types=[interactions.ChannelType.GUILD_CATEGORY],
+                name="categoria",
+                description="Escolha a categoria",
+                required=True,
+            ),
         ]
     )
-    async def new_branch(self, ctx: interactions.CommandContext, branch_name):
+    async def new_branch(self, ctx: interactions.CommandContext, branch_name, categoria):
         self.branch_name = branch_name
+        self.categoria: interactions.Channel = categoria
         headers = {
             'Authorization': 'Token {}'.format(git_Token),
         }
@@ -140,6 +148,11 @@ class NewBranch(interactions.Extension):
 
         if response.status_code == 201:
             await ctx.send('Nova branch criada com sucesso!')
+            await ctx.guild.create_channel(
+                name=self.branch_name,
+                type=interactions.ChannelType.GUILD_TEXT,
+                parent_id=int(self.categoria.id)
+            )
         else:
             await ctx.send('Erro ao criar a nova branch')
             print(response.text)
