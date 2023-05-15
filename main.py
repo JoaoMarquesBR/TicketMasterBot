@@ -11,7 +11,7 @@ load_dotenv()
 bot_Token = os.getenv("BOT_TOKEN")
 server_ID = os.getenv("SERVER_ID")
 git_Token = os.getenv("GIT_TOKEN")
-name_git = 'victorgabrieldeon'
+name_git = os.getenv("GIT_USERNAME")
 
 print(server_ID)
 
