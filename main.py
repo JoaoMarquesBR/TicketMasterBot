@@ -92,12 +92,13 @@ class NewBranch(interactions.Extension):
         options_repo = []
         for repo in request_repositorys.json():
             name = repo.get('name')
-            options_repo.append(
-                interactions.SelectOption(
-                    label=name,
-                    value=name,
+            if name not in [repo.value for repo in options_repo]:
+                options_repo.append(
+                    interactions.SelectOption(
+                        label=name,
+                        value=name,
+                    )
                 )
-            )
         await ctx.send('Escolha um repository')
         select_menu_options = []
         for i in range((len(options_repo) // 25)+1):
